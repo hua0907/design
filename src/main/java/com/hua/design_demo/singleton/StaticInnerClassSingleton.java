@@ -1,7 +1,5 @@
 package com.hua.design_demo.singleton;
 
-import sun.security.jca.GetInstance;
-
 public class StaticInnerClassSingleton {
 
     private StaticInnerClassSingleton() {

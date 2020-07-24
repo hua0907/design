@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+	<contextName>message-service-consumer</contextName>
+	<!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
+	<property name="LOG_HOME" value="/data/logs/omni-member-admin"/>
+	<springProperty scope="context" name="ip" source="spring.cloud.client.ipAddress"/>
+	<springProperty scope="context" name="active"  source="spring.profiles.active" />
+	<!-- 控制台输出 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符-->
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<springProfile name="dev">
+		<root level="info">
+			<appender-ref ref="STDOUT"/>
+		</root>
+	</springProfile>
+
+	<!-- 按照每天生成日志文件 -->
+	<!--<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+	     <!--<filter class="com.purcotton.omni.common.aop.log.FileLogDenyFilter" >-->
+            <!--<level>INFO</level>-->
+            <!--<onMatch>ACCEPT</onMatch>-->
+            <!--<onMismatch>DENY</onMismatch>-->
+        <!--</filter>-->
+		<!--<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+			<!--&lt;!&ndash;日志文件输出的文件名&ndash;&gt;-->
+			<!--<FileNamePattern>${LOG_HOME}/omni-member-admin.%d{yyyy-MM-dd}.%i.log</FileNamePattern>-->
+			<!--&lt;!&ndash;日志文件保留天数&ndash;&gt;-->
+			<!--<MaxHistory>30</MaxHistory>-->
+			<!--<maxFileSize>100MB</maxFileSize>-->
+			<!--<totalSizeCap>2048MB</totalSizeCap>-->
+		<!--</rollingPolicy>-->
+		<!--<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">-->
+			<!--<providers>-->
+				<!--<timestamp>-->
+					<!--<timeZone>UTC</timeZone>-->
+				<!--</timestamp>-->
+				<!--<pattern>-->
+					<!--<pattern>-->
+						<!--{-->
+						<!--"ip": "${ip}",-->
+						<!--"time": "%d",-->
+						<!--"env": "${active}",-->
+						<!--"level": "%level",-->
+						<!--"thread": "%thread",-->
+						<!--"class": "%logger{40}",-->
+						<!--"message": "%message",-->
+						<!--"stack_trace": "%exception{10}",-->
+                        <!--"trace_id": "%X{traceId}"-->
+						<!--}-->
+					<!--</pattern>-->
+				<!--</pattern>-->
+			<!--</providers>-->
+		<!--</encoder>-->
+	<!--</appender>-->
+	
+		<!-- 按照每天生成日志文件 -->
+    <!--<appender name="traceFILE"-->
+              <!--class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+        <!--<filter class="com.purcotton.omni.common.aop.log.LogFilter" >-->
+            <!--<level>INFO</level>-->
+            <!--<onMatch>ACCEPT</onMatch>-->
+            <!--<onMismatch>DENY</onMismatch>-->
+        <!--</filter>-->
+        <!--&lt;!&ndash; 设置按尺寸和时间（同时满足）分割 &ndash;&gt;-->
+        <!--<rollingPolicy-->
+                <!--class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
+            <!--&lt;!&ndash; rollover daily &ndash;&gt;-->
+            <!--<fileNamePattern>/data/logs/traceFile/omni-member-admin-traceFile.%d{yyyy-MM-dd}.%i.log-->
+            <!--</fileNamePattern>-->
+            <!--<maxFileSize>100MB</maxFileSize>-->
+            <!--<maxHistory>30</maxHistory>-->
+            <!--<totalSizeCap>2048MB</totalSizeCap>-->
+        <!--</rollingPolicy>-->
+           <!--<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+            <!--&lt;!&ndash;格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符&ndash;&gt;-->
+            <!--<pattern>%msg%n</pattern>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+    
+    
+	 <logger name="org.apache.http" level="ERROR"/>
+    <logger name="com.netflix.discovery" level="ERROR"/>
+    <logger name="org.apache.tomcat" level="ERROR"/>
+    <logger name="org.apache.zookeeper" level="ERROR"/>
+    <logger name="com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver" level="ERROR"/>
+    <!-- 启动的时候一些日志屏蔽 -->
+    <logger name="com.netflix.discovery" level="ERROR"/>
+    <logger name="org.apache" level="ERROR"/>
+    <logger name="org.springframework.jmx.export.annotation.AnnotationMBeanExporter" level="ERROR"/>
+    <logger name="org.springframework.boot.actuate.endpoint.mvc" level="ERROR"/>
+    <logger name="org.springframework.boot.web.servlet.FilterRegistrationBean" level="ERROR"/>
+    <logger name="org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer" level="ERROR"/>
+    <logger name="com.netflix.config.sources.URLConfigurationSource" level="ERROR"/>
+    <logger name="com.netflix.discovery.shared.resolver.aws.ConfigClusterResolver" level="ERROR"/>
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="ERROR"/>
+    <logger name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" level="ERROR"/>
+    <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" level="ERROR"/>
+    <logger name="org.springframework.ui.freemarker.SpringTemplateLoader" level="ERROR"/>
+    <logger name="org.springframework.context.annotation.AnnotationConfigApplicationContext" level="ERROR"/>
+    <logger name="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" level="ERROR"/>
+    <logger name="org.springframework.beans.factory.support.DefaultListableBeanFactory" level="ERROR"/>
+    <logger name="org.springframework.boot.actuate.endpoint.jmx.EndpointMBeanExporter" level="ERROR"/>
+    
+   	<!--<appender name="FILE-ASYNC"-->
+	<!--class="ch.qos.logback.classic.AsyncAppender">-->
+	<!--<discardingThreshold>0</discardingThreshold>-->
+	<!--<queueSize>10000</queueSize>-->
+	<!--<appender-ref ref="FILE" />-->
+	<!--</appender>-->
+
+    <!--<appender name="TRACE_FILE-ASYNC"-->
+		<!--class="ch.qos.logback.classic.AsyncAppender">-->
+		<!--<discardingThreshold>0</discardingThreshold>-->
+		<!--<queueSize>10000</queueSize>-->
+		<!--<appender-ref ref="traceFILE" />-->
+	<!--</appender>-->
+	
+
+	<!--<springProfile name="test,submit_test,stress_test,prod">-->
+		<!--<root level="INFO">-->
+			<!--<appender-ref ref="STDOUT"/>-->
+			<!--<appender-ref ref="FILE-ASYNC"/>-->
+			<!--<appender-ref ref="TRACE_FILE-ASYNC"/>-->
+		<!--</root>-->
+	<!--</springProfile>-->
+</configuration>
